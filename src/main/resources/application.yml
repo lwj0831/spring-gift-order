@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: optional:file:.env[.properties]
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
@@ -8,6 +10,19 @@ jwt:
   access-token-validity: ${ACCESS_TOKEN_VALIDTY:3600000}
   refresh-token-validity: ${REFRESH_TOKEN_VALIDITY:604800000}
   issuer: ${ISSUER:http://auth.gift-app.com}
+
+kakao:
+  client-id: ${KAKAO_CLIENT_ID}
+  client-secret: ${KAKAO_CLIENT_SECRET}
+  redirect-uri: ${KAKAO_REDIRECT_URI:http://localhost:8080/api/kakao/callback}
+  urls:
+    base-auth: https://kauth.kakao.com
+    base-api: https://kapi.kakao.com
+    token: /oauth/token
+    authorize: /oauth/authorize
+    user-info: /v2/user/me
+    send-message: /v2/api/talk/memo/default/send
+    unlink: /v1/user/unlink
 
 
 
