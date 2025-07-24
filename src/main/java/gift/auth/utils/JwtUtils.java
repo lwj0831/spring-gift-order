@@ -1,5 +1,6 @@
-package gift.auth.domain;
+package gift.auth.utils;
 
+import gift.auth.config.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

@@ -1,6 +1,6 @@
 package gift.auth.service;
 
-import gift.auth.domain.JwtUtils;
+import gift.auth.utils.JwtUtils;
 import gift.auth.domain.MemberAuth;
 import gift.auth.domain.TokenInfo;
 import gift.auth.repository.MemberAuthJpaRepository;

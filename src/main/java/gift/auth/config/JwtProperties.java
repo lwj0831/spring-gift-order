@@ -1,4 +1,4 @@
-package gift.auth.domain;
+package gift.auth.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
