@@ -10,7 +10,9 @@ public enum AuthErrorCode implements ErrorCode {
     EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "AUTH-003", "만료된 토큰입니다."),
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "AUTH-004", "유효하지 않은 토큰입니다."),
     PASSWORD_MISMATCH(HttpStatus.BAD_REQUEST, "AUTH-005", "비밀번호가 일치하지 않습니다."),
-    DUPLICATED_EMAIL(HttpStatus.BAD_REQUEST, "AUTH-006", "해당 이메일을 사용중인 회원이 존재합니다.");
+    DUPLICATED_EMAIL(HttpStatus.BAD_REQUEST, "AUTH-006", "해당 이메일을 사용중인 회원이 존재합니다."),
+    KAKAO_CLIENT_ERROR(HttpStatus.BAD_REQUEST, "AUTH-007","카카오 API 클라이언트 오류"),
+    KAKAO_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "AUTH-008", "카카오 API 서버 오류");
 
     private final HttpStatus status;
     private final String errorCode;
