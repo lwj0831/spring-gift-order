@@ -9,10 +9,12 @@ import gift.auth.dto.RegisterMemberRequestDto;
 import gift.auth.dto.RegisterMemberResponseDto;
 import gift.auth.exception.DuplicatedEmailException;
 import gift.auth.exception.ExpiredTokenException;
+import gift.auth.exception.InvalidLoginException;
 import gift.auth.exception.InvalidTokenException;
 import gift.auth.exception.PasswordMismatchException;
 import gift.auth.repository.MemberAuthJpaRepository;
 import gift.member.domain.Member;
+import gift.member.domain.MemberType;
 import gift.member.exception.MemberNotFoundException;
 import gift.member.repository.MemberJpaRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,7 +46,7 @@ public class AuthService {
             throw new DuplicatedEmailException();
         }
 
-        Member member = Member.of(dto.username());
+        Member member = Member.of(dto.username(), MemberType.GENERAL);
         Long memberId = memberRepository.save(member).getId();
         String encodedPassword = passwordEncoder.encode(dto.password());
 
@@ -67,6 +69,10 @@ public class AuthService {
 
         Member member = memberRepository.findById(memberAuth.getId())
             .orElseThrow(() -> new MemberNotFoundException(memberAuth.getId()));
+
+        if(member.isKakaoUser()){
+            throw new InvalidLoginException();
+        }
 
         TokenInfo tokenInfo = tokenService.generateBearerTokenInfo(member.getId(), email);
         return LoginResponseDto.from(tokenInfo);

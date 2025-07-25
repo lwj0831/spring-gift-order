@@ -18,16 +18,20 @@ public class Member {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private MemberType memberType;
+
     protected Member() {
     }
 
-    private Member(Long id, String name) {
+    private Member(Long id, String name, MemberType memberType) {
         this.id = id;
         this.name = name;
+        this.memberType = memberType;
     }
 
-    public static Member of(String name) {
-        return new Member(null, name);
+    public static Member of(String name, MemberType memberType) {
+        return new Member(null, name, memberType);
     }
 
     public Long getId() {
@@ -36,5 +40,9 @@ public class Member {
 
     public String getName() {
         return name;
+    }
+
+    public boolean isKakaoUser(){
+        return this.memberType==MemberType.KAKAO;
     }
 }
