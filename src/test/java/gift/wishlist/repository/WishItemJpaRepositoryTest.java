@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import gift.member.domain.Member;
+import gift.member.domain.MemberType;
 import gift.product.domain.Product;
 import gift.product.domain.ProductOption;
 import gift.wishlist.domain.WishItem;
@@ -34,7 +35,7 @@ class WishItemJpaRepositoryTest {
     @Test
     @DisplayName("위시아이템을 저장하고 조회할 수 있다")
     void saveAndFindWishItem() {
-        Member member = Member.of("lee");
+        Member member = Member.of("lee", MemberType.GENERAL);
         Product product = Product.of("testProduct", 1000, "description", "image.jpg",
             List.of(ProductOption.of("testOption", 10)));
 
@@ -55,7 +56,7 @@ class WishItemJpaRepositoryTest {
     @Test
     @DisplayName("멤버ID와 상품ID로 위시아이템을 조회할 수 있다")
     void findByMemberIdAndProductId() {
-        Member member = Member.of("lee");
+        Member member = Member.of("lee", MemberType.GENERAL);
         Product product = Product.of("testProduct", 1000, "description", "image.jpg",
             List.of(ProductOption.of("testOption", 10)));
 
@@ -86,7 +87,7 @@ class WishItemJpaRepositoryTest {
     @Test
     @DisplayName("멤버ID로 상품 정보와 함께 위시아이템 목록을 페이지네이션으로 조회할 수 있다")
     void findAllWithProductByMemberId_withPaging() {
-        Member member = Member.of("lee");
+        Member member = Member.of("lee", MemberType.GENERAL);
         Product product1 = Product.of("testProduct", 1000, "description", "image.jpg",
             List.of(ProductOption.of("testOption", 10)));
         Product product2 = Product.of("testProduct", 2000, "description", "image.jpg",
@@ -134,7 +135,7 @@ class WishItemJpaRepositoryTest {
     @Test
     @DisplayName("위시아이템을 삭제할 수 있다")
     void deleteWishItem() {
-        Member member = Member.of("lee");
+        Member member = Member.of("lee", MemberType.GENERAL);
         Product product = Product.of("testProduct", 800000, "description", "image.jpg",
             List.of(ProductOption.of("testOption", 10)));
 
@@ -154,7 +155,7 @@ class WishItemJpaRepositoryTest {
     @Test
     @DisplayName("ID로 위시아이템을 조회할 수 있다")
     void findById() {
-        Member member = Member.of("lee");
+        Member member = Member.of("lee", MemberType.GENERAL);
         Product product = Product.of("testProduct", 1000, "description", "image.jpg",
             List.of(ProductOption.of("testOption", 10)));
 
@@ -176,8 +177,8 @@ class WishItemJpaRepositoryTest {
     @Test
     @DisplayName("전체 위시아이템 수를 조회할 수 있다")
     void countAllWishItems() {
-        Member member1 = Member.of("lee");
-        Member member2 = Member.of("kim");
+        Member member1 = Member.of("lee", MemberType.GENERAL);
+        Member member2 = Member.of("kim", MemberType.GENERAL);
         Product product1 = Product.of("testProduct", 1000, "description", "image.jpg",
             List.of(ProductOption.of("testOption", 10)));
         Product product2 = Product.of("testProduct", 2000, "description", "image.jpg",
@@ -202,7 +203,7 @@ class WishItemJpaRepositoryTest {
     @Test
     @DisplayName("위시아이템이 존재하는지 확인할 수 있다")
     void existsById() {
-        Member member = Member.of("lee");
+        Member member = Member.of("lee", MemberType.GENERAL);
         Product product = Product.of("testProduct", 1000, "description", "image.jpg",
             List.of(ProductOption.of("testOption", 10)));
 
