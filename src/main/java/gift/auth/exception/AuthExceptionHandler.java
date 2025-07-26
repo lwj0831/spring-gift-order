@@ -62,18 +62,10 @@ public class AuthExceptionHandler {
         return ErrorResponseFactory.createErrorResponse(exception);
     }
 
-    @ExceptionHandler(KakaoApiClientException.class)
-    public ResponseEntity<ErrorResponse> handleKakaoApiClientException(
+    @ExceptionHandler({KakaoApiClientException.class, KakaoApiServerException.class})
+    public ResponseEntity<ErrorResponse> handleKakaoApiException(
         KakaoApiClientException exception) {
-        logger.error("KakaoApiClient exception: {}", exception.getMessage());
-
-        return ErrorResponseFactory.createErrorResponse(exception);
-    }
-
-    @ExceptionHandler(KakaoApiServerException.class)
-    public ResponseEntity<ErrorResponse> handleKakaoApiServerException(
-        KakaoApiServerException exception) {
-        logger.error("KakaoApiServer exception: {}", exception.getMessage());
+        logger.error("Kakao Api exception: {}", exception.getMessage());
 
         return ErrorResponseFactory.createErrorResponse(exception);
     }
