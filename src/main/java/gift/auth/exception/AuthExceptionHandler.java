@@ -54,4 +54,20 @@ public class AuthExceptionHandler {
         return ErrorResponseFactory.createErrorResponse(exception);
     }
 
+    @ExceptionHandler(InvalidLoginException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidLoginException(
+        InvalidLoginException exception) {
+        logger.error("Invalid login exception: {}", exception.getMessage());
+
+        return ErrorResponseFactory.createErrorResponse(exception);
+    }
+
+    @ExceptionHandler({KakaoApiClientException.class, KakaoApiServerException.class})
+    public ResponseEntity<ErrorResponse> handleKakaoApiException(
+        KakaoApiClientException exception) {
+        logger.error("Kakao Api exception: {}", exception.getMessage());
+
+        return ErrorResponseFactory.createErrorResponse(exception);
+    }
+
 }

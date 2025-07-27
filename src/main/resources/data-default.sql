@@ -22,8 +22,8 @@ INSERT INTO product (id, name, price, description, image_url)
 VALUES (110, '테스트 상품10', 10000, '설명10', 'https://img.url');
 
 
-INSERT INTO member (id, name)
-VALUES (100, 'lee');
+INSERT INTO member (id, name, member_type)
+VALUES (100, 'lee', 0);
 
 
 INSERT INTO member_auth (id, email, password, refresh_token)
