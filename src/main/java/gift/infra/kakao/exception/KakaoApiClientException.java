@@ -1,5 +1,6 @@
-package gift.auth.exception;
+package gift.infra.kakao.exception;
 
+import gift.auth.exception.AuthErrorCode;
 import gift.global.exception.BusinessException;
 
 public class KakaoApiClientException extends BusinessException {

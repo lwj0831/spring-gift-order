@@ -17,8 +17,9 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gift.auth.config.KakaoOauthProperties;
-import gift.auth.dto.KakaoTokenResponseDto;
-import gift.auth.dto.KakaoUserInfoResponseDto;
+import gift.infra.kakao.KakaoApiClient;
+import gift.infra.kakao.dto.KakaoTokenResponseDto;
+import gift.infra.kakao.dto.KakaoUserInfoResponseDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

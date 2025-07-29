@@ -1,4 +1,4 @@
-package gift.auth.dto;
+package gift.infra.kakao.dto;
 
 public record KakaoUserInfoResponseDto(
     Long id,

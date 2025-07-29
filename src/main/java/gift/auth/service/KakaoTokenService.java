@@ -1,9 +1,10 @@
 package gift.auth.service;
 
 import gift.auth.domain.KakaoAuth;
-import gift.auth.dto.KakaoTokenResponseDto;
 import gift.auth.exception.KakaoReauthenticationRequiredException;
 import gift.auth.repository.KakaoAuthJpaRepository;
+import gift.infra.kakao.KakaoApiClient;
+import gift.infra.kakao.dto.KakaoTokenResponseDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

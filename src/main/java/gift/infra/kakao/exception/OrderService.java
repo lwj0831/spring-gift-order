@@ -1,9 +1,9 @@
-package gift.order.service;
+package gift.infra.kakao.exception;
 
 import gift.auth.exception.ForbiddenException;
 import gift.auth.exception.KakaoReauthenticationRequiredException;
-import gift.auth.service.KakaoApiClient;
 import gift.auth.service.KakaoTokenService;
+import gift.infra.kakao.KakaoApiClient;
 import gift.member.domain.Member;
 import gift.member.service.MemberService;
 import gift.order.domain.Order;

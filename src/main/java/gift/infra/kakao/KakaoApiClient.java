@@ -1,14 +1,14 @@
-package gift.auth.service;
+package gift.infra.kakao;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gift.auth.config.KakaoOauthProperties;
-import gift.auth.dto.KakaoMessageResponseDto;
-import gift.auth.dto.KakaoTokenResponseDto;
-import gift.auth.dto.KakaoUserInfoResponseDto;
-import gift.auth.dto.TextTemplate;
-import gift.auth.exception.KakaoApiClientException;
-import gift.auth.exception.KakaoApiServerException;
+import gift.infra.kakao.dto.KakaoMessageResponseDto;
+import gift.infra.kakao.dto.KakaoTokenResponseDto;
+import gift.infra.kakao.dto.KakaoUserInfoResponseDto;
+import gift.infra.kakao.dto.TextTemplate;
+import gift.infra.kakao.exception.KakaoApiClientException;
+import gift.infra.kakao.exception.KakaoApiServerException;
 import java.net.URI;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
