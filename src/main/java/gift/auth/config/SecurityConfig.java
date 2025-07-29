@@ -55,6 +55,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.PUT, "/api/products/**").authenticated()
                 .requestMatchers(HttpMethod.DELETE, "/api/products/**").authenticated()
                 .requestMatchers("/api/wishItems/**").authenticated()
+                .requestMatchers("/api/orders/**").authenticated()
                 .anyRequest().permitAll()
             )
             .addFilterBefore(jwtValidationFilter, UsernamePasswordAuthenticationFilter.class)
