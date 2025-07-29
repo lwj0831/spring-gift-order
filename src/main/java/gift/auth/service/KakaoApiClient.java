@@ -3,6 +3,7 @@ package gift.auth.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gift.auth.config.KakaoOauthProperties;
+import gift.auth.dto.KakaoMessageResponseDto;
 import gift.auth.dto.KakaoTokenResponseDto;
 import gift.auth.dto.KakaoUserInfoResponseDto;
 import gift.auth.dto.TextTemplate;
@@ -91,7 +92,7 @@ public class KakaoApiClient {
             .body(KakaoUserInfoResponseDto.class);
     }
 
-    public void sendKakaoMessage(String kakaoAccessToken, String message){
+    public KakaoMessageResponseDto sendKakaoMessage(String kakaoAccessToken, String message){
         URI uri = UriComponentsBuilder
             .fromUriString(properties.urls().getSendMessageUrl())
             .build()
@@ -108,13 +109,13 @@ public class KakaoApiClient {
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("template_object",templateJson);
 
-        int resultCode = restClient.post()
+        return restClient.post()
             .uri(uri)
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .header("Authorization", "Bearer " + kakaoAccessToken)
             .body(body)
             .retrieve()
-            .body(Integer.class);
+            .body(KakaoMessageResponseDto.class);
     }
 
 }
