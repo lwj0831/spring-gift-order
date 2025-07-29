@@ -25,7 +25,8 @@ public class KakaoApiClient {
     private final KakaoOauthProperties properties;
     private final ObjectMapper objectMapper;
 
-    public KakaoApiClient(RestClient.Builder builder, KakaoOauthProperties properties, ObjectMapper objectMapper) {
+    public KakaoApiClient(RestClient.Builder builder, KakaoOauthProperties properties,
+        ObjectMapper objectMapper) {
         this.restClient = builder
             .defaultStatusHandler(HttpStatusCode::is4xxClientError, (request, response) -> {
                 throw new KakaoApiClientException(response.getStatusText());
@@ -59,7 +60,7 @@ public class KakaoApiClient {
             .body(KakaoTokenResponseDto.class);
     }
 
-    public KakaoTokenResponseDto refreshAccessToken(String refreshToken){
+    public KakaoTokenResponseDto refreshAccessToken(String refreshToken) {
         URI uri = UriComponentsBuilder
             .fromUriString(properties.urls().getTokenUrl())
             .build()
@@ -68,7 +69,7 @@ public class KakaoApiClient {
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
         body.add("client_id", properties.clientId());
-        body.add("refresh_token",refreshToken);
+        body.add("refresh_token", refreshToken);
         body.add("client_secret", properties.clientSecret());
 
         return restClient.post()
@@ -79,7 +80,7 @@ public class KakaoApiClient {
             .body(KakaoTokenResponseDto.class);
     }
 
-    public KakaoUserInfoResponseDto getUserInfo(String kakaoAccessToken){
+    public KakaoUserInfoResponseDto getUserInfo(String kakaoAccessToken) {
         URI uri = UriComponentsBuilder
             .fromUriString(properties.urls().getUserInfoUrl())
             .build()
@@ -92,7 +93,7 @@ public class KakaoApiClient {
             .body(KakaoUserInfoResponseDto.class);
     }
 
-    public KakaoMessageResponseDto sendKakaoMessage(String kakaoAccessToken, String message){
+    public KakaoMessageResponseDto sendKakaoMessage(String kakaoAccessToken, String message) {
         URI uri = UriComponentsBuilder
             .fromUriString(properties.urls().getSendMessageUrl())
             .build()
@@ -107,7 +108,7 @@ public class KakaoApiClient {
         }
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-        body.add("template_object",templateJson);
+        body.add("template_object", templateJson);
 
         return restClient.post()
             .uri(uri)

@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "kakao_auth")
 public class KakaoAuth extends TimeBaseEntity {
+
     @Id
     private Long id;
     @Column(nullable = false)
@@ -24,7 +25,8 @@ public class KakaoAuth extends TimeBaseEntity {
     protected KakaoAuth() {
     }
 
-    private KakaoAuth(Long id, String accessToken, String refreshToken, Integer accessExpiresIn, Integer refreshExpiresIn) {
+    private KakaoAuth(Long id, String accessToken, String refreshToken, Integer accessExpiresIn,
+        Integer refreshExpiresIn) {
         this.id = id;
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
@@ -33,8 +35,9 @@ public class KakaoAuth extends TimeBaseEntity {
         this.refreshTokenExpiresAt = now.plusSeconds(refreshExpiresIn);
     }
 
-    public static KakaoAuth withId(Long id, String accessToken, String refreshToken, Integer accessExpiresIn, Integer refreshExpiresIn){
-        return new KakaoAuth(id,accessToken, refreshToken, accessExpiresIn, refreshExpiresIn);
+    public static KakaoAuth withId(Long id, String accessToken, String refreshToken,
+        Integer accessExpiresIn, Integer refreshExpiresIn) {
+        return new KakaoAuth(id, accessToken, refreshToken, accessExpiresIn, refreshExpiresIn);
     }
 
     public Long getId() {
@@ -49,7 +52,7 @@ public class KakaoAuth extends TimeBaseEntity {
         return refreshToken;
     }
 
-    public void updateTokenInfo(String accessToken, String refreshToken){
+    public void updateTokenInfo(String accessToken, String refreshToken) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
     }

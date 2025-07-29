@@ -1,7 +1,6 @@
 package gift.order.controller;
 
 import gift.auth.annotation.LoginUser;
-import gift.auth.domain.CustomUserDetails;
 import gift.order.dto.CreateOrderRequestDto;
 import gift.order.dto.GetOrderResponseDto;
 import gift.order.service.OrderService;
@@ -25,13 +24,15 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createOrder(@LoginUser Long memberId, @RequestBody CreateOrderRequestDto dto){
+    public ResponseEntity<Void> createOrder(@LoginUser Long memberId,
+        @RequestBody CreateOrderRequestDto dto) {
         Long orderId = orderService.createOrder(memberId, dto);
-        return ResponseEntity.created(URI.create("/api/orders/"+orderId)).build();
+        return ResponseEntity.created(URI.create("/api/orders/" + orderId)).build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetOrderResponseDto> getOrderInfo(@LoginUser Long memberId, @PathVariable(value = "id") Long orderId){
+    public ResponseEntity<GetOrderResponseDto> getOrderInfo(@LoginUser Long memberId,
+        @PathVariable(value = "id") Long orderId) {
         return ResponseEntity.ok(orderService.getOrderInfo(memberId, orderId));
     }
 

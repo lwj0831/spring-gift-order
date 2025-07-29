@@ -70,7 +70,7 @@ public class WishItemService {
     }
 
     @Transactional(readOnly = true)
-    public boolean checkWishItemExists(Long id){
+    public boolean checkWishItemExists(Long id) {
         return wishItemRepository.existsById(id);
     }
 }

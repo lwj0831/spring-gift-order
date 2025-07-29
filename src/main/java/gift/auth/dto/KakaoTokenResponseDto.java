@@ -11,4 +11,6 @@ public record KakaoTokenResponseDto(
     String refreshToken,
     Integer refreshTokenExpiresIn,
     String scope
-) {}
+) {
+
+}

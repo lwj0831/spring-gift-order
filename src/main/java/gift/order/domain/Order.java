@@ -44,23 +44,23 @@ public class Order extends TimeBaseEntity {
         this.member = member;
     }
 
-    public static Order of(List<OrderProduct> orderProducts,Member member){
+    public static Order of(List<OrderProduct> orderProducts, Member member) {
         return new Order(null, orderProducts, member);
     }
 
-    private void validateOrderProductAtLeastOne(List<OrderProduct> orderProducts){
-        if(orderProducts==null || orderProducts.isEmpty()){
+    private void validateOrderProductAtLeastOne(List<OrderProduct> orderProducts) {
+        if (orderProducts == null || orderProducts.isEmpty()) {
             throw new IllegalArgumentException("주문 상품은 null이거나 최소 1개 이상이어야 합니다.");
         }
     }
 
-    public void addOrderProduct(OrderProduct orderProduct){
+    public void addOrderProduct(OrderProduct orderProduct) {
         this.orderProducts.add(orderProduct);
         orderProduct.setOrder(this);
-        this.totalPrice+=orderProduct.getOrderPrice();
+        this.totalPrice += orderProduct.getOrderPrice();
     }
 
-    private int calculateTotalPrice(){
+    private int calculateTotalPrice() {
         return orderProducts.stream()
             .mapToInt(OrderProduct::getOrderPrice).sum();
     }
@@ -77,7 +77,7 @@ public class Order extends TimeBaseEntity {
         return orderProducts;
     }
 
-    public Member getMember(){
+    public Member getMember() {
         return member;
     }
 }

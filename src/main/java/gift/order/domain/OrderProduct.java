@@ -10,7 +10,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -33,7 +32,7 @@ public class OrderProduct {
     private Product product;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="option_id", nullable = false)
+    @JoinColumn(name = "option_id", nullable = false)
     private ProductOption productOption;
 
     protected OrderProduct() {
@@ -48,7 +47,7 @@ public class OrderProduct {
         this.productOption = productOption;
     }
 
-    public static OrderProduct of(Product product, ProductOption productOption, int orderQuantity){
+    public static OrderProduct of(Product product, ProductOption productOption, int orderQuantity) {
         return new OrderProduct(null, orderQuantity, null, product, productOption);
     }
 
@@ -56,27 +55,27 @@ public class OrderProduct {
         return id;
     }
 
-    private int getUnitPrice(){
+    private int getUnitPrice() {
         return product.getPrice();
     }
 
-    public String getProductName(){
+    public String getProductName() {
         return product.getName();
     }
 
-    public String getProductOptionName(){
+    public String getProductOptionName() {
         return productOption.getName();
     }
 
-    public int getOrderQuantity(){
+    public int getOrderQuantity() {
         return orderQuantity;
     }
 
-    public int getOrderPrice(){
-        return getUnitPrice()*orderQuantity;
+    public int getOrderPrice() {
+        return getUnitPrice() * orderQuantity;
     }
 
-    public void setOrder(Order order){
+    public void setOrder(Order order) {
         this.order = order;
     }
 

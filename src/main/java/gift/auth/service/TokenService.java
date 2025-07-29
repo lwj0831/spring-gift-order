@@ -1,9 +1,9 @@
 package gift.auth.service;
 
-import gift.auth.utils.JwtUtils;
 import gift.auth.domain.MemberAuth;
 import gift.auth.domain.TokenInfo;
 import gift.auth.repository.MemberAuthJpaRepository;
+import gift.auth.utils.JwtUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import org.springframework.stereotype.Component;
@@ -24,7 +24,7 @@ public class TokenService {
     }
 
     @Transactional
-    public TokenInfo generateBearerTokenInfo(Long memberId, String email) {
+    public TokenInfo generateAndUpdateBearerTokenInfo(Long memberId, String email) {
         String accessToken = jwtUtils.createToken(memberId, email, List.of());
         String refreshToken = jwtUtils.createRefreshToken(memberId);
 

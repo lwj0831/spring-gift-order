@@ -1,6 +1,5 @@
 package gift.member.domain;
 
-import gift.order.domain.Order;
 import gift.wishlist.domain.WishItem;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -58,7 +57,7 @@ public class Member {
         return wishItems;
     }
 
-    public boolean isKakaoUser(){
-        return this.memberType==MemberType.KAKAO;
+    public boolean isKakaoUser() {
+        return this.memberType == MemberType.KAKAO;
     }
 }

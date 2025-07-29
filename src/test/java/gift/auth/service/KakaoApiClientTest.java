@@ -1,5 +1,20 @@
 package gift.auth.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withBadRequest;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withUnauthorizedRequest;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gift.auth.config.KakaoOauthProperties;
 import gift.auth.dto.KakaoTokenResponseDto;
@@ -13,13 +28,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.hamcrest.Matchers.containsString;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
-
 class KakaoApiClientTest {
 
     private KakaoApiClient kakaoApiClient;
@@ -31,7 +39,8 @@ class KakaoApiClientTest {
         KakaoOauthProperties.Urls urls = mock(KakaoOauthProperties.Urls.class);
         when(urls.getTokenUrl()).thenReturn("https://kauth.kakao.com/oauth/token");
         when(urls.getUserInfoUrl()).thenReturn("https://kapi.kakao.com/v2/user/me");
-        when(urls.getSendMessageUrl()).thenReturn("https://kapi.kakao.com/v2/api/talk/memo/default/send");
+        when(urls.getSendMessageUrl()).thenReturn(
+            "https://kapi.kakao.com/v2/api/talk/memo/default/send");
 
         kakaoOauthProperties = mock(KakaoOauthProperties.class);
         when(kakaoOauthProperties.urls()).thenReturn(urls);
@@ -41,7 +50,8 @@ class KakaoApiClientTest {
 
         RestClient.Builder restClientBuilder = RestClient.builder();
         mockServer = MockRestServiceServer.bindTo(restClientBuilder).build();
-        kakaoApiClient = new KakaoApiClient(restClientBuilder, kakaoOauthProperties, new ObjectMapper());
+        kakaoApiClient = new KakaoApiClient(restClientBuilder, kakaoOauthProperties,
+            new ObjectMapper());
     }
 
     @AfterEach
