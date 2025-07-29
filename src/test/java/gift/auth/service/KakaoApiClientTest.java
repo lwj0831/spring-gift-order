@@ -167,12 +167,17 @@ class KakaoApiClientTest {
 
     @Test
     void sendKakaoMessage() {
+        String responseJson = """
+            {
+                "result_code": 0
+            }
+            """;
         mockServer.expect(requestTo("https://kapi.kakao.com/v2/api/talk/memo/default/send"))
             .andExpect(method(org.springframework.http.HttpMethod.POST))
             .andExpect(header("Authorization", "Bearer access-token"))
             .andExpect(content().contentType(MediaType.APPLICATION_FORM_URLENCODED))
             .andExpect(content().string(containsString("template_object=")))
-            .andRespond(withSuccess("0", MediaType.APPLICATION_JSON));
+            .andRespond(withSuccess(responseJson, MediaType.APPLICATION_JSON));
 
         assertThatNoException().isThrownBy(() ->
             kakaoApiClient.sendKakaoMessage("access-token", "test message")
