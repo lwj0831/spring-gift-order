@@ -1,13 +1,14 @@
-package gift.auth.service;
+package gift.infra.kakao;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gift.auth.config.KakaoOauthProperties;
-import gift.auth.dto.KakaoTokenResponseDto;
-import gift.auth.dto.KakaoUserInfoResponseDto;
-import gift.auth.dto.TextTemplate;
-import gift.auth.exception.KakaoApiClientException;
-import gift.auth.exception.KakaoApiServerException;
+import gift.infra.kakao.dto.KakaoMessageResponseDto;
+import gift.infra.kakao.dto.KakaoTokenResponseDto;
+import gift.infra.kakao.dto.KakaoUserInfoResponseDto;
+import gift.infra.kakao.dto.TextTemplate;
+import gift.infra.kakao.exception.KakaoApiClientException;
+import gift.infra.kakao.exception.KakaoApiServerException;
 import java.net.URI;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
@@ -24,7 +25,8 @@ public class KakaoApiClient {
     private final KakaoOauthProperties properties;
     private final ObjectMapper objectMapper;
 
-    public KakaoApiClient(RestClient.Builder builder, KakaoOauthProperties properties, ObjectMapper objectMapper) {
+    public KakaoApiClient(RestClient.Builder builder, KakaoOauthProperties properties,
+        ObjectMapper objectMapper) {
         this.restClient = builder
             .defaultStatusHandler(HttpStatusCode::is4xxClientError, (request, response) -> {
                 throw new KakaoApiClientException(response.getStatusText());
@@ -58,7 +60,7 @@ public class KakaoApiClient {
             .body(KakaoTokenResponseDto.class);
     }
 
-    public KakaoTokenResponseDto refreshAccessToken(String refreshToken){
+    public KakaoTokenResponseDto refreshAccessToken(String refreshToken) {
         URI uri = UriComponentsBuilder
             .fromUriString(properties.urls().getTokenUrl())
             .build()
@@ -67,7 +69,7 @@ public class KakaoApiClient {
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
         body.add("client_id", properties.clientId());
-        body.add("refresh_token",refreshToken);
+        body.add("refresh_token", refreshToken);
         body.add("client_secret", properties.clientSecret());
 
         return restClient.post()
@@ -78,7 +80,7 @@ public class KakaoApiClient {
             .body(KakaoTokenResponseDto.class);
     }
 
-    public KakaoUserInfoResponseDto getUserInfo(String kakaoAccessToken){
+    public KakaoUserInfoResponseDto getUserInfo(String kakaoAccessToken) {
         URI uri = UriComponentsBuilder
             .fromUriString(properties.urls().getUserInfoUrl())
             .build()
@@ -91,7 +93,7 @@ public class KakaoApiClient {
             .body(KakaoUserInfoResponseDto.class);
     }
 
-    public void sendKakaoMessage(String kakaoAccessToken, String message){
+    public KakaoMessageResponseDto sendKakaoMessage(String kakaoAccessToken, String message) {
         URI uri = UriComponentsBuilder
             .fromUriString(properties.urls().getSendMessageUrl())
             .build()
@@ -106,15 +108,15 @@ public class KakaoApiClient {
         }
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-        body.add("template_object",templateJson);
+        body.add("template_object", templateJson);
 
-        int resultCode = restClient.post()
+        return restClient.post()
             .uri(uri)
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .header("Authorization", "Bearer " + kakaoAccessToken)
             .body(body)
             .retrieve()
-            .body(Integer.class);
+            .body(KakaoMessageResponseDto.class);
     }
 
 }

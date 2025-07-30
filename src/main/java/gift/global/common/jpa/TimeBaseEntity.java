@@ -14,10 +14,10 @@ public class TimeBaseEntity {
 
     @CreatedDate
     @Column(updatable = false)
-    private LocalDateTime registerDate;
+    protected LocalDateTime registerDate;
 
     @LastModifiedDate
-    private LocalDateTime updateDate;
+    protected LocalDateTime updateDate;
 
     public LocalDateTime getRegisterDate() {
         return registerDate;

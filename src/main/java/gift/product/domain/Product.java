@@ -102,4 +102,5 @@ public class Product {
     public List<ProductOption> getOptions() {
         return options;
     }
+
 }

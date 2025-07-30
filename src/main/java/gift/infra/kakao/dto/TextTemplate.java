@@ -1,4 +1,4 @@
-package gift.auth.dto;
+package gift.infra.kakao.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -9,6 +9,7 @@ public record TextTemplate(
     String text,
     Link link
 ) {
+
     public TextTemplate(String text, String url) {
         this("text", text, new Link(url, url));
     }
@@ -17,6 +18,8 @@ public record TextTemplate(
     public record Link(
         String webUrl,
         String mobileWebUrl
-    ) {}
+    ) {
+
+    }
 }
 

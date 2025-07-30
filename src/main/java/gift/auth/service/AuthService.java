@@ -53,7 +53,7 @@ public class AuthService {
         MemberAuth memberAuth = MemberAuth.withId(memberId, dto.email(), encodedPassword);
         memberAuthRepository.save(memberAuth);
 
-        TokenInfo tokenInfo = tokenService.generateBearerTokenInfo(memberId, email);
+        TokenInfo tokenInfo = tokenService.generateAndUpdateBearerTokenInfo(memberId, email);
         return RegisterMemberResponseDto.from(tokenInfo, memberId);
     }
 
@@ -63,24 +63,28 @@ public class AuthService {
         MemberAuth memberAuth = memberAuthRepository.findByEmail(email)
             .orElseThrow(() -> new MemberNotFoundException(email));
 
+        Member member = memberRepository.findById(memberAuth.getId())
+            .orElseThrow(() -> new MemberNotFoundException(memberAuth.getId()));
+
+        //카카오 소셜 회원은 일반 로그인 실패
+        if (member.isKakaoUser()) {
+            throw new InvalidLoginException();
+        }
+
+        //비밀번호 검증
         if (!passwordEncoder.matches(dto.password(), memberAuth.getPassword())) {
             throw new PasswordMismatchException();
         }
 
-        Member member = memberRepository.findById(memberAuth.getId())
-            .orElseThrow(() -> new MemberNotFoundException(memberAuth.getId()));
-
-        if(member.isKakaoUser()){
-            throw new InvalidLoginException();
-        }
-
-        TokenInfo tokenInfo = tokenService.generateBearerTokenInfo(member.getId(), email);
+        TokenInfo tokenInfo = tokenService.generateAndUpdateBearerTokenInfo(member.getId(), email);
         return LoginResponseDto.from(tokenInfo);
     }
 
     @Transactional
     public LoginResponseDto refreshToken(RefreshTokenRequestDto dto) {
         String refreshToken = dto.refreshToken();
+
+        //리프레쉬 토큰 만료 여부 검증
         if (!tokenService.isValidToken(refreshToken)) {
             throw new ExpiredTokenException();
         }
@@ -89,11 +93,12 @@ public class AuthService {
         Long memberId = tokenService.getUserId(refreshToken);
         MemberAuth memberAuth = findMemberAuthOrThrow(memberId);
 
+        //리프레쉬 토큰 일치 여부 검증
         if (!memberAuth.matchRefreshToken(refreshToken)) {
             throw new InvalidTokenException();
         }
 
-        TokenInfo tokenInfo = tokenService.generateBearerTokenInfo(memberId, email);
+        TokenInfo tokenInfo = tokenService.generateAndUpdateBearerTokenInfo(memberId, email);
         return LoginResponseDto.from(tokenInfo);
     }
 

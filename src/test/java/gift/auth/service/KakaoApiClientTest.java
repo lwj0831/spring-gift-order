@@ -1,9 +1,25 @@
 package gift.auth.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withBadRequest;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withUnauthorizedRequest;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gift.auth.config.KakaoOauthProperties;
-import gift.auth.dto.KakaoTokenResponseDto;
-import gift.auth.dto.KakaoUserInfoResponseDto;
+import gift.infra.kakao.KakaoApiClient;
+import gift.infra.kakao.dto.KakaoTokenResponseDto;
+import gift.infra.kakao.dto.KakaoUserInfoResponseDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,13 +28,6 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
-
-import static org.assertj.core.api.Assertions.*;
-import static org.hamcrest.Matchers.containsString;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
 
 class KakaoApiClientTest {
 
@@ -31,7 +40,8 @@ class KakaoApiClientTest {
         KakaoOauthProperties.Urls urls = mock(KakaoOauthProperties.Urls.class);
         when(urls.getTokenUrl()).thenReturn("https://kauth.kakao.com/oauth/token");
         when(urls.getUserInfoUrl()).thenReturn("https://kapi.kakao.com/v2/user/me");
-        when(urls.getSendMessageUrl()).thenReturn("https://kapi.kakao.com/v2/api/talk/memo/default/send");
+        when(urls.getSendMessageUrl()).thenReturn(
+            "https://kapi.kakao.com/v2/api/talk/memo/default/send");
 
         kakaoOauthProperties = mock(KakaoOauthProperties.class);
         when(kakaoOauthProperties.urls()).thenReturn(urls);
@@ -41,7 +51,8 @@ class KakaoApiClientTest {
 
         RestClient.Builder restClientBuilder = RestClient.builder();
         mockServer = MockRestServiceServer.bindTo(restClientBuilder).build();
-        kakaoApiClient = new KakaoApiClient(restClientBuilder, kakaoOauthProperties, new ObjectMapper());
+        kakaoApiClient = new KakaoApiClient(restClientBuilder, kakaoOauthProperties,
+            new ObjectMapper());
     }
 
     @AfterEach
@@ -156,12 +167,17 @@ class KakaoApiClientTest {
 
     @Test
     void sendKakaoMessage() {
+        String responseJson = """
+            {
+                "result_code": 0
+            }
+            """;
         mockServer.expect(requestTo("https://kapi.kakao.com/v2/api/talk/memo/default/send"))
             .andExpect(method(org.springframework.http.HttpMethod.POST))
             .andExpect(header("Authorization", "Bearer access-token"))
             .andExpect(content().contentType(MediaType.APPLICATION_FORM_URLENCODED))
             .andExpect(content().string(containsString("template_object=")))
-            .andRespond(withSuccess("0", MediaType.APPLICATION_JSON));
+            .andRespond(withSuccess(responseJson, MediaType.APPLICATION_JSON));
 
         assertThatNoException().isThrownBy(() ->
             kakaoApiClient.sendKakaoMessage("access-token", "test message")

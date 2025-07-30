@@ -1,5 +1,6 @@
 package gift.auth.domain;
 
+import gift.member.domain.MemberType;
 import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,11 +10,13 @@ public class CustomUserDetails implements UserDetails {
     private Long memberId;
     private String email;
     private String password;
+    private MemberType memberType;
 
-    public CustomUserDetails(Long memberId, String email, String password) {
+    public CustomUserDetails(Long memberId, String email, String password, MemberType memberType) {
         this.memberId = memberId;
         this.email = email;
         this.password = null;
+        this.memberType = memberType;
     }
 
     @Override
@@ -53,5 +56,9 @@ public class CustomUserDetails implements UserDetails {
 
     public Long getUserId() {
         return memberId;
+    }
+
+    public MemberType getMemberType() {
+        return memberType;
     }
 }

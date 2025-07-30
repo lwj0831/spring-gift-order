@@ -27,7 +27,8 @@ VALUES (100, 'lee', 0);
 
 
 INSERT INTO member_auth (id, email, password, refresh_token)
-VALUES (100, 'wjl0831@gmail.com', '$2a$10$JunqFWsxQbDLzmNAAgXNKuKW77ehhv9cuozq75SkkbJZEYtee1Zm.',
+VALUES (100, 'wjl0831@gmail.com',
+        '{bcrypt}$2a$10$JunqFWsxQbDLzmNAAgXNKuKW77ehhv9cuozq75SkkbJZEYtee1Zm.',
         'abcd');
 
 

@@ -2,6 +2,8 @@ package gift.auth.exception;
 
 import gift.global.exception.ErrorResponseFactory;
 import gift.global.exception.dto.ErrorResponse;
+import gift.infra.kakao.exception.KakaoApiClientException;
+import gift.infra.kakao.exception.KakaoApiServerException;
 import gift.product.exception.ProductExceptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

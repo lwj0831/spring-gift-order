@@ -1,12 +1,12 @@
-package gift.auth.exception;
+package gift.infra.kakao.exception;
 
+import gift.auth.exception.AuthErrorCode;
 import gift.global.exception.BusinessException;
-import gift.global.exception.ErrorCode;
 
 public class KakaoApiServerException extends BusinessException {
 
     public KakaoApiServerException(String text) {
         super(AuthErrorCode.KAKAO_SERVER_ERROR);
-        addArgument("status text",text);
+        addArgument("status text", text);
     }
 }

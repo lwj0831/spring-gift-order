@@ -30,6 +30,6 @@ public class CustomUserDetailService implements UserDetailsService {
             .orElseThrow(() -> new UsernameNotFoundException("회원 정보를 찾을 수 없습니다"));
 
         return new CustomUserDetails(member.getId(), memberAuth.getEmail(),
-            memberAuth.getPassword());
+            memberAuth.getPassword(), member.getMemberType());
     }
 }
