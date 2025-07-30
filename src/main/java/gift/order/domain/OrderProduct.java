@@ -40,6 +40,9 @@ public class OrderProduct {
 
     private OrderProduct(Long id, int orderQuantity, Order order, Product product,
         ProductOption productOption) {
+        validateProduct(product);
+        validateOption(productOption);
+        validateOrderQuantity(orderQuantity);
         this.id = id;
         this.orderQuantity = orderQuantity;
         this.order = order;
@@ -49,6 +52,24 @@ public class OrderProduct {
 
     public static OrderProduct of(Product product, ProductOption productOption, int orderQuantity) {
         return new OrderProduct(null, orderQuantity, null, product, productOption);
+    }
+
+    private void validateOrderQuantity(int orderQuantity) {
+        if(orderQuantity <=0){
+            throw new IllegalArgumentException("상품 수량은 0이하일 수 없습니다.");
+        }
+    }
+
+    private void validateOption(ProductOption productOption) {
+        if(productOption == null){
+            throw new IllegalArgumentException("상품 옵션은 상품이 null값일 수 없습니다.");
+        }
+    }
+
+    private void validateProduct(Product product) {
+        if(product == null){
+            throw new IllegalArgumentException("상품 옵션은 상품이 null값일 수 없습니다.");
+        }
     }
 
     public Long getId() {
