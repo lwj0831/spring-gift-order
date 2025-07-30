@@ -1,4 +1,4 @@
-package gift.infra.kakao.exception;
+package gift.order.service;
 
 import gift.auth.exception.ForbiddenException;
 import gift.auth.exception.KakaoReauthenticationRequiredException;
@@ -62,6 +62,7 @@ public class OrderService {
                 ProductOption option = productOptionService.findProductOptionOrThrow(
                     d.productOptionId());
 
+                option.subtractQuantity(d.orderQuantity());
                 //위시 아이템 삭제
                 member.getWishItems().forEach(w ->
                 {

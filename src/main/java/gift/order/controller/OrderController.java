@@ -1,9 +1,9 @@
 package gift.order.controller;
 
 import gift.auth.annotation.LoginUser;
-import gift.infra.kakao.exception.OrderService;
 import gift.order.dto.CreateOrderRequestDto;
 import gift.order.dto.GetOrderResponseDto;
+import gift.order.service.OrderService;
 import java.net.URI;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
