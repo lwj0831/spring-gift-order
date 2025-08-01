@@ -55,19 +55,19 @@ public class OrderProduct {
     }
 
     private void validateOrderQuantity(int orderQuantity) {
-        if(orderQuantity <=0){
+        if (orderQuantity <= 0) {
             throw new IllegalArgumentException("상품 수량은 0이하일 수 없습니다.");
         }
     }
 
     private void validateOption(ProductOption productOption) {
-        if(productOption == null){
+        if (productOption == null) {
             throw new IllegalArgumentException("상품 옵션은 상품이 null값일 수 없습니다.");
         }
     }
 
     private void validateProduct(Product product) {
-        if(product == null){
+        if (product == null) {
             throw new IllegalArgumentException("상품 옵션은 상품이 null값일 수 없습니다.");
         }
     }
