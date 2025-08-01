@@ -72,4 +72,19 @@
   - 카카오 accessToken, refreshToken 정보 담는 역할 담당
 - [x] KakaoAuth 레포지토리, 서비스 구현
 
-
+---
+# STEP4 3단계 - 배포하기
+---
+## 구현 내용
+### 1. CORS 정책 구현
+- [x] 스프링 시큐리티 설정 내 CORS 정책 구현
+- [x] CORS 구현 사항 테스트 코드 작성
+### 2. HTTPS 적용
+- [x] 모든 요청에 대해 HTTPS 적용하도록 설정
+### 3. 배포하기
+- [x] github actions를 이용한 CD파이프라인 구축
+  - 배포 스크립트 작성
+- [x] EC2 인스턴스 생성 및 초기 세팅
+  - Java, MySQL 설치
+  - MYSQL 유저 및 DB 생성
+- [x] 배포 후 Postman으로 API호출 테스트 진행
