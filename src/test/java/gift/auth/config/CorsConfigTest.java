@@ -25,14 +25,14 @@ class CorsConfigTest {
     @Autowired
     private MockMvc mockMvc;
 
-    private static final String ALLOWED_ORIGIN = "https://localhost:3000";
-    private static final String DISALLOWED_ORIGIN = "https://malicious-site.com";
+    private static final String ALLOWED_ORIGIN = "http://localhost:3000";
+    private static final String DISALLOWED_ORIGIN = "http://malicious-site.com";
     private static final String TEST_API_PATH = "/api/products";
 
     @Test
     @DisplayName("preflight 요청 - 허용된 Origin, Method, Header 요청 시 응답이 성공적으로 반환된다")
     void testAllowedOriginPreflightRequest() throws Exception {
-        mockMvc.perform(options(TEST_API_PATH).secure(true)
+        mockMvc.perform(options(TEST_API_PATH)
                 .header(HttpHeaders.ORIGIN, ALLOWED_ORIGIN)
                 .header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, HttpMethod.GET.name())
                 .header(HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS,
@@ -57,7 +57,7 @@ class CorsConfigTest {
     @Test
     @DisplayName("preflight 요청 - 허용되지 않은 Origin 요청 시 응답으로 403(FORBIDDEN) + CORS 헤더가 없어야 한다")
     void testDisallowedOriginPreflightRequest() throws Exception {
-        mockMvc.perform(options(TEST_API_PATH).secure(true)
+        mockMvc.perform(options(TEST_API_PATH)
                 .header(HttpHeaders.ORIGIN, DISALLOWED_ORIGIN)
                 .header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, HttpMethod.GET.name()))
             .andExpect(status().isForbidden())
@@ -67,7 +67,7 @@ class CorsConfigTest {
     @Test
     @DisplayName("SOP 요청 - Origin 헤더 없는 SOP 요청은 응답으로 200(OK) + CORS 헤더가 없어야 한다")
     void testRequestWithoutOriginHeader() throws Exception {
-        mockMvc.perform(get("/api/products").secure(true))
+        mockMvc.perform(get("/api/products"))
             .andExpect(status().isOk())
             .andExpect(header().doesNotExist(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN));
     }
@@ -75,7 +75,7 @@ class CorsConfigTest {
     @Test
     @DisplayName("Simple Request - 허용된 Origin 요청 시 응답이 성공적으로 반환된다")
     void testAllowedOriginActualRequest() throws Exception {
-        mockMvc.perform(get(TEST_API_PATH).secure(true)
+        mockMvc.perform(get(TEST_API_PATH)
                 .header(HttpHeaders.ORIGIN, ALLOWED_ORIGIN))
             .andExpect(status().isOk())
             .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, ALLOWED_ORIGIN))
@@ -85,7 +85,7 @@ class CorsConfigTest {
     @Test
     @DisplayName("Simple Request - 허용되지 않은 Origin 요청 시 403(FORBIDDEN) + CORS 헤더가 없어야 한다")
     void testDisallowedOriginActualRequest() throws Exception {
-        mockMvc.perform(get(TEST_API_PATH).secure(true)
+        mockMvc.perform(get(TEST_API_PATH)
                 .header(HttpHeaders.ORIGIN, DISALLOWED_ORIGIN))
             .andExpect(status().isForbidden())
             .andExpect(header().doesNotExist(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN));
@@ -100,7 +100,7 @@ class CorsConfigTest {
     })
     @DisplayName("preflight 요청 - 여러 API 경로로 허용된 Origin, Method 요청 시 응답이 성공적으로 반환된다")
     void testCorsConsistencyAcrossEndpoints(String endpoint) throws Exception {
-        mockMvc.perform(options(endpoint).secure(true)
+        mockMvc.perform(options(endpoint)
                 .header(HttpHeaders.ORIGIN, ALLOWED_ORIGIN)
                 .header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, HttpMethod.GET.name()))
             .andExpect(status().isOk())
